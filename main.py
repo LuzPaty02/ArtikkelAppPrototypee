@@ -66,18 +66,21 @@ class Database:
         _connection.close()
 
 
-    def search_vocab(self, kanji: str) -> dict[list[str], list[str]]:
+    def search_vocab(self, EnglishWord: str) -> dict[list[str], list[str]]:
 
         _connection: sqlite3.Connection = sqlite3.connect(self._db_path)
         _cursor: sqlite3.Cursor = _connection.cursor()
 
         list_search_results: list[tuple[str, str]] = _cursor.execute(
-            '''SELECT * FROM vocabulary WHERE kanji LIKE ?''', ('%' + kanji + '%',)
+            '''SELECT * FROM vocabulary WHERE EnglishWord LIKE ?''', ('%' + EnglishWord + '%',)
         ).fetchall()
 
+        self.search_results['EnglishWord'].clear()
+        self.search_results['GermanWord'].clear()
+
         for result in list_search_results:
-            self.search_results['kanji'].append(result[0])
-            self.search_results['meaning'].append(result[1])
+            self.search_results['EnglishWord'].append(result[0])
+            self.search_results['GermanWord'].append(result[1])
 
         _cursor.close()
         _connection.close()
