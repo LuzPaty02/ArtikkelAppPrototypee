@@ -26,13 +26,20 @@ class Database:
         _temp_list: list[tuple[str, str]] = []
 
         with open(self._csv_path, newline="", encoding="utf-8") as csvfile:
-            _reader = csv.reader(csvfile, delimiter="\t", quotechar='"')
-            for row in _reader:
-                english_words_Col = row[0].strip()
-                german_words_Col = row[1].strip()
+                    _reader = csv.reader(csvfile, delimiter=" ")
+                    for row in _reader:
+                        # Para casos en los que hay varios espacios en una línea
+                        English_multipleWords_word = row[0].split(None, 1)
+                        if len(English_multipleWords_word) >= 2:
+                            english_words_Col = English_multipleWords_word[0].strip()
+                            german_words_Col = English_multipleWords_word[1].strip()
+                            
+                            _temp_list.append((english_words_Col, german_words_Col))
+                        else:
+                            english_words_Col = row[0].strip()
+                            german_words_Col = row[1].strip()
 
-            
-                _temp_list.append((english_words_Col, german_words_Col))
+                            _temp_list.append((english_words_Col, german_words_Col))
 
 
         # Se crea la tabla y se insertan los datos
