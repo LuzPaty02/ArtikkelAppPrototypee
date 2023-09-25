@@ -40,7 +40,17 @@ class Database:
                             german_words_Col = row[1].strip()
 
                             _temp_list.append((english_words_Col, german_words_Col))
+        #Funcion si se usa archivo sql en vez de csv y se separa solo por comas 
+        """ with open(self._csv_path, newline="", encoding="utf-8") as csvfile:
+                _reader = csv.reader(csvfile, delimiter=",")
+                for row in _reader:
+                    # Ignorar comillas 
+                    english_words_Col = row[0].strip().strip('"')
+                    german_words_Col = row[1].strip().strip('"')
 
+                    _temp_list.append((english_words_Col, german_words_Col))
+            
+            return _temp_list """
 
         # Se crea la tabla y se insertan los datos
         _cursor.execute(
